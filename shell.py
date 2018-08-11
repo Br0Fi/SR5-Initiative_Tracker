@@ -11,7 +11,7 @@ class InitiativeShell(cmd.Cmd):
     # ----- basic initiative commands -----
     def do_add(self, arg):
         'Add a Character to the initiative order: ADD Tim 10'
-        initiative.add(*parse(arg))
+        initiative.add(parse(arg)[0], int(parse(arg)[1]))
 
     def do_cycle(self, arg):
         'Move the turn order to the next character: CYCLE'
@@ -20,7 +20,7 @@ class InitiativeShell(cmd.Cmd):
     def do_seize(self, arg):
         'Let a character chose to use his edge to seize the initiative: \
 SEIZE Tim'
-        initiative.seizeInitiative(*parse(arg))
+        initiative.seize_initiative(*parse(arg))
 
     def do_exit(self, arg):
         'close the initiative tracker, losing all previosly input characters'

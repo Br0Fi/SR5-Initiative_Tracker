@@ -178,6 +178,7 @@ def change_initiative(character_name, added_value):
         print('There was no character of that name found.')
 
 
+# TODO Should the seized value only be true for one initiative pass and not the whole turn? -> look that up
 # TODO Characters entering combat during the turn -> implement Surprise
 # TODO reomove Characters (dead, unconscious, leaving, misspelled, etc.)
 
