@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # -*- coding: utf-8 -*-
 """
 @author: BroFi
@@ -144,7 +146,7 @@ def seize_initiative(character_name):
     try:
         """not sure if this makes the most sense
         and it's definitely not necessary.
-        TODO remove the manual throw cause the error is thrown anyways."""
+        TODO remove the manual raise cause the error is thrown anyways."""
         if character_name not in [x.name for x in character_list]:
             raise ValueError('Name not found')
         character_list[[x.name for x in character_list]
@@ -161,6 +163,7 @@ def initialize():
     character_list = []
     global pass_timer
     pass_timer = PassTimer()
+    update()
 
 
 def change_initiative(character_name, added_value):
@@ -176,7 +179,8 @@ def change_initiative(character_name, added_value):
 
 
 # TODO Characters entering combat during the turn -> implement Surprise
-# TODO reomove Characters (dead, unconscious, leaving, wrongly spelled, etc.)
+# TODO reomove Characters (dead, unconscious, leaving, misspelled, etc.)
+
 # For testing:
 #initialize()
 #add("Hans", 5)
@@ -186,4 +190,3 @@ def change_initiative(character_name, added_value):
 #add("Sabine", 5)
 #
 #seize_initiative("Peter")
-#update()
