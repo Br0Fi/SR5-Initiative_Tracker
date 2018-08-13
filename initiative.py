@@ -105,17 +105,17 @@ def update():
                 went_seized.append(char)
             else:
                 went_not_seized.append(char)
-        elif char.has_Went == pass_timer.initiative_pass - 2:
+        else:
+            if char.has_went != pass_timer.initiative_pass - 2:
+                print(char.name, " was added in this \
+initiative pass and treated accordingly.")
+                char.has_went = pass_timer.initiative_pass - 2
+
             if char.seized:
                 not_went_seized.append(char)
             else:
                 not_went_not_seized.append(char)
-        else:
-            # should maybe be done by raising and excepting some error
-            print("Error: The character ", char.name, " has went ",
-                  char.has_went, " times this turn. This does not make \
-                  sense because the current turn is ",
-                  pass_timer.initiative_pass - 1)
+
     went_not_seized = sorted(went_not_seized, key=lambda char: char.initiative)
     went_seized = sorted(went_seized, key=lambda char: char.initiative)
     not_went_not_seized = sorted(not_went_not_seized,
@@ -179,8 +179,9 @@ def change_initiative(character_name, added_value):
 
 
 # TODO Should the seized value only be true for one initiative pass and not the whole turn? -> look that up
-# TODO Characters entering combat during the turn -> implement Surprise
+# TODO Characters entering combat during the turn -> implement Surprise?
 # TODO reomove Characters (dead, unconscious, leaving, misspelled, etc.)
+# TODO unseize + entsprechenden printout zur Bestätigung bei seize
 
 # For testing:
 #initialize()
