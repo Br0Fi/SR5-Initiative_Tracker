@@ -61,6 +61,9 @@ def add(character_name, character_initiative):
     amount of times, so you don't forget anyone.'''
     char = Character(character_name, character_initiative)
     character_list.append(char)
+    char.has_went = pass_timer.initiative_pass - 1
+    char.initiative = char.initiative - 10 * (pass_timer.initiative_pass - 1)
+
     update()
     '''this can be removed if update() is invocted after
     all characters have been added'''
@@ -107,9 +110,7 @@ def update():
                 went_not_seized.append(char)
         else:
             if char.has_went != pass_timer.initiative_pass - 2:
-                print(char.name, " was added in this \
-initiative pass and treated accordingly.")
-                char.has_went = pass_timer.initiative_pass - 2
+                print(char.name, "somthing went wrong in update().")
 
             if char.seized:
                 not_went_seized.append(char)
@@ -177,11 +178,10 @@ def change_initiative(character_name, added_value):
     except ValueError:
         print('There was no character of that name found.')
 
-
-# TODO Should the seized value only be true for one initiative pass and not the whole turn? -> look that up
-# TODO Characters entering combat during the turn -> implement Surprise?
 # TODO reomove Characters (dead, unconscious, leaving, misspelled, etc.)
 # TODO unseize + entsprechenden printout zur Bestätigung bei seize
+# TODO change initiative sometimes produces wrong order, can't recreate...
+# TODO cleanup for new turn
 
 # For testing:
 #initialize()
