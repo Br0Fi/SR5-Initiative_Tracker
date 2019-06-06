@@ -26,6 +26,13 @@ class InitiativeShell(cmd.Cmd):
         else:
             initiative.cycle()
 
+    def do_back(self, arg):
+        'To be used to cycle one step backwards: BACK'
+        if len(parse(arg)) != 0:
+            print("*** expected zero arguments. Got ", len(parse(arg)))
+        else:
+            initiative.back()
+
     def do_seize(self, arg):
         'Let a character chose to use his edge to seize the initiative: \
 SEIZE Tim'
@@ -45,10 +52,20 @@ SEIZE Tim'
                 print("***The second argument must be an Integer.")
 
     def do_exit(self, arg):
-        'close the initiative tracker, losing all previosly input characters'
+        'close the initiative tracker, losing all previosly input characters: \
+EXIT'
         print('Thank you for using the SR5 Initiative Tracker')
         # TODO unfitting, if just the next turn is invoced
         return True
+
+    def do_reset(self, arg):
+        'start a new combat turn and reset everything: RESET'
+        if len(parse(arg)) != 0:
+            print("*** expected zero arguments. Got ", len(parse(arg)))
+        else:
+            for i in range(0, 10):
+                print('\n')
+            initiative.reset()
 
     initiative.initialize()
 

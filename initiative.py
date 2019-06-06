@@ -42,10 +42,13 @@ class PassTimer:
         '''Displays the current turn number. Should possibly be changed to
         display the next turns number because of the way it's displayed in the
         list.'''
-        return repr(("Turn No. ", self.initiative_pass))
+        return repr(("Pass No. ", self.initiative_pass))
 
     def pass_start(self):
         self.initiative_pass += 1
+
+    def pass_back(self):  # TODO: unused?
+        self.initiative_pass -= 1
 
     def new_turn(self):
         self.initiative_pass = 1
@@ -54,19 +57,22 @@ class PassTimer:
 def add(character_name, character_initiative):
     '''Adds a character to the initiative order
     with the specified initiative value.
-    ERIC is not included in this so that you do not have to look up these
-    stats in advance. You'll just have to look them up, when two characters
+    ERIC (Edge, Reaction, Intuition, Coin) is not included in this so that you
+    do not have to put these stats in advance.
+    You'll just have to look them up, whenever two characters
     have equal initiative. I recomend to not cycle before all characters with
-    the same initiative have made their action phase and then cycling that
-    amount of times, so you don't forget anyone.'''
-    char = Character(character_name, character_initiative)
-    character_list.append(char)
-    char.has_went = pass_timer.initiative_pass - 1
-    char.initiative = char.initiative - 10 * (pass_timer.initiative_pass - 1)
-
-    update()
-    '''this can be removed if update() is invocted after
-    all characters have been added'''
+    the same initiative have made their action phase and then cycling the
+    appropriate amount of times, so that you don't forget anyone.'''
+    if(character_name in [x.name for x in character_list]):
+        print(character_name + ' is already part of the initiative order!')
+        print_order
+    else:
+        char = Character(character_name, character_initiative)
+        character_list.append(char)
+        char.has_went = pass_timer.initiative_pass - 1
+        char.initiative = char.initiative - 10 * (
+                pass_timer.initiative_pass - 1)
+        update()
 
 
 def cycle():
@@ -86,6 +92,25 @@ def cycle():
         Character.change_initiative(initiative_pass[len(character_list)], -10)
         initiative_pass[len(character_list)].has_went += 1
     initiative_pass.rotate()
+    print_order()
+
+
+def back():
+    '''To be used to cycle one step backwards. Particularly helpful, if you
+    cycled before adding all characters at the start of the combat turn.'''
+    if hasattr(initiative_pass[0], 'initiative_pass'):
+        PassTimer.pass_back(pass_timer)
+#    elif hasattr(initiative_pass[len(initiative_pass)-2], 'initiative_pass'):
+#        for i in [x for x in range(0, len(initiative_pass))
+#                  if x != len(initiative_pass)-2]:
+#            Character.change_initiative(initiative_pass[i], -10)
+#        print("debug:")
+#        print(initiative_pass[len(character_list)-1])
+#        initiative_pass[len(character_list)-1].has_went += 1
+    else:
+        Character.change_initiative(initiative_pass[0], +10)
+        initiative_pass[0].has_went -= 1
+    initiative_pass.rotate(-1)
     print_order()
 
 
@@ -178,10 +203,15 @@ def change_initiative(character_name, added_value):
     except ValueError:
         print('There was no character of that name found.')
 
+
+def reset():
+    '''removes everyone from initiative order and resets the turn timer.
+    Meant to be used when a new combat turn starts.'''
+    initialize()
+
 # TODO reomove Characters (dead, unconscious, leaving, misspelled, etc.)
 # TODO unseize + entsprechenden printout zur Bestätigung bei seize
-# TODO change initiative sometimes produces wrong order, can't recreate...
-# TODO cleanup for new turn
+# TODO change initiative sometimes produces wrong order, can't recreate at will
 
 # For testing:
 #initialize()
